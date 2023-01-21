@@ -1,12 +1,11 @@
 const express = require("express");
+const cors=require("cors")
 require("dotenv").config({ path: "./.env" });
 const db = require("./databse/db");
 const app = express();
 app.use(express.json());
-
-
+app.use(cors())
 const productRoutes = require("./scr/Products/Routes/AllProductRoutes");
-
 app.use("/api/v1", productRoutes);
 app.get("/", (req, res) => {
   res.status(200).json({

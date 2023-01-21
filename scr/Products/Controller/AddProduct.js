@@ -7,7 +7,7 @@ const getProducts = async (req, res) => {
   //   console.log(req.query);
   let { page, size } = req.query;
   if (!size) {
-    size = 4;
+    size = 8;
   }
   if (!page) {
     page = 1;
