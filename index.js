@@ -1,8 +1,9 @@
 const express = require("express");
-require("dotenv").config({ path: "./databse/.env" });
+require("dotenv").config({ path: "./.env" });
 const db = require("./databse/db");
 const app = express();
 app.use(express.json());
+
 
 const productRoutes = require("./scr/Products/Routes/AllProductRoutes");
 
