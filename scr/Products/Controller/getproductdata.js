@@ -3,16 +3,36 @@ const getProducts = async (req, res) => {
   try {
     let page = req.query.page || 1;
     let size = req.query.size || 8;
-    let category=req.query.category
+    let category = req.query.category;
     console.log(req.query);
     const limit = parseInt(size);
     const product = await productmodel
-      .find({category})
+      .find({ category })
       .skip((page - 1) * size)
       .limit(limit);
     res.status(200).json({
       success: true,
       size: product.length,
+      product,
+    });
+  } catch (err) {
+    return res.status(404).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+const getProductId = async (req, res) => {
+  try {
+    const product = await productmodel.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "product not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
       product,
     });
   } catch (err) {
@@ -38,4 +58,4 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-module.exports = { getProducts, getAllProducts };
+module.exports = { getProducts, getAllProducts, getProductId };

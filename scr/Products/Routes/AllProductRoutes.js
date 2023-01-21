@@ -1,7 +1,9 @@
-const {  getProducts, getAllProducts } = require("../Controller/getproductdata");
+const {  getProducts, getAllProducts, getProductId } = require("../Controller/getproductdata");
 
 const routes = require("express").Router();
 routes.get("/productsall", getAllProducts);
 routes.get("/products", getProducts);
+routes.get("/product/:id", getProductId);
+
 
 module.exports = routes;
