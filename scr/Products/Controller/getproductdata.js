@@ -4,10 +4,10 @@ const getProducts = async (req, res) => {
     let page = req.query.page || 1;
     let size = req.query.size || 8;
     let category=req.query.category
-    console.log(category);
+    // console.log(category);
     const limit = parseInt(size);
     const product = await productmodel
-      .find(category)
+      .find({category})
       .skip((page - 1) * size)
       .limit(limit);
     res.status(200).json({
