@@ -13,7 +13,10 @@ const getProducts = async (req, res) => {
     page = 1;
   }
   const limit = parseInt(size);
-  const product = await productmodel.find().limit(limit);
+  const product = await productmodel
+    .find()
+    .skip((page - 1) * size)
+    .limit(limit);
   res.status(200).json({
     success: true,
     size: product.length,
