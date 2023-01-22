@@ -1,10 +1,15 @@
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config({ path: "./.env" });
 const db = require("./databse/db");
 const app = express();
+const cookiesParser = require("cookie-parser");
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookiesParser());
 app.use(cors());
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config({ path: "./.env" });
+}
 const productRoutes = require("./scr/Products/Routes/AllProductRoutes");
 const googleRoute = require("./scr/Users/Routes/GoogleRoute");
 const userRoutes = require("./scr/Users/Routes/RegistrationRoutes");
