@@ -1,12 +1,16 @@
 const express = require("express");
-const cors=require("cors")
+const cors = require("cors");
 require("dotenv").config({ path: "./.env" });
 const db = require("./databse/db");
 const app = express();
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 const productRoutes = require("./scr/Products/Routes/AllProductRoutes");
+const googleRoute = require("./scr/Users/Routes/GoogleRoute");
+const userRoutes = require("./scr/Users/Routes/RegistrationRoutes");
 app.use("/api/v1", productRoutes);
+app.use("/api/v1", googleRoute);
+app.use("/api/v1", userRoutes);
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
