@@ -12,7 +12,7 @@ const Usermodel = new mongoose.Schema(
 );
 Usermodel.pre("save", function (next) {
   if (this.isModified("password")) {
-    this.password = bcrypt.hashSync(this.password, process.env.SALT);
+    this.password = bcrypt.hashSync(this.password, 10);
   }
   next();
 });

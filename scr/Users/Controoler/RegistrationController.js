@@ -7,11 +7,6 @@ const registeruser = async (req, res) => {
       "+password"
     );
     if (user) {
-      const option = {
-        expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
-        httpOnly: true,
-      };
-      const token = await user.GenrateToken();
       let match = await user.matchPassword(req.body.password);
       // console.log("match", match);
       if (!match) {
@@ -21,7 +16,19 @@ const registeruser = async (req, res) => {
           message: "something wrong in match",
         });
       }
-      return res.status(200).cookie("token", token, option).json({
+      const LoginToken = await user.GenrateToken();
+      const option = {
+        expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+      };
+      if (!LoginToken) {
+        return res.status(404).json({
+          success: true,
+          user,
+          message: "something wrong  LoginToken",
+        });
+      }
+      return res.status(200).cookie("LoginToken", LoginToken, option).json({
         success: true,
         user,
         message: "user login successfully",
@@ -32,15 +39,15 @@ const registeruser = async (req, res) => {
       expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
       httpOnly: true,
     };
-    const token = await user.GenrateToken();
-    if (!token) {
+    const LoginToken = await user.GenrateToken();
+    if (!LoginToken) {
       return res.status(404).json({
         success: true,
         user,
-        message: "something wrong  token",
+        message: "something wrong  LoginToken",
       });
     }
-    return res.status(201).cookie("token", token, option).json({
+    return res.status(201).cookie("LoginToken", LoginToken, option).json({
       success: true,
       user,
       message: "user registred successfully",
@@ -52,4 +59,18 @@ const registeruser = async (req, res) => {
     });
   }
 };
-module.exports = { registeruser };
+const userlist = async (req, res) => {
+  try {
+    const user = await Model.find();
+    return res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    return res.status(404).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+module.exports = { registeruser, userlist };
