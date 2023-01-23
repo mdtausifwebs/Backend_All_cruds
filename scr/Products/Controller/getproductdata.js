@@ -4,7 +4,7 @@ const getProducts = async (req, res) => {
     let page = req.query.page || 1;
     let size = req.query.size || 8;
     let category = req.query.category;
-    console.log(req.query);
+    // console.log(req.query);
     const limit = parseInt(size);
     const product = await productmodel
       .find({ category })
