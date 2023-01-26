@@ -3,6 +3,7 @@ const {
   getProducts,
   getAllProducts,
   getProductId,
+  sortbyPrice,
 } = require("../Controller/getproductdata");
 const {
   filterPrice,
@@ -14,6 +15,7 @@ const routes = require("express").Router();
 routes.get("/productsall", getAllProducts);
 routes.get("/products", getProducts);
 routes.get("/product/:id", getProductId);
+routes.get("/products/sortbyprice", sortbyPrice);
 routes.get("/products/filterPrice", filterPrice);
 routes.get("/products/filterdiscount", filterDiscount);
 routes.get("/products/filtersubcategory", filtersubCategory);
