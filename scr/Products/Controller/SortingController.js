@@ -1,19 +1,16 @@
 const Model = require("../Models/ProductModel");
-
 const filterPrice = async (req, res) => {
   try {
     const category = req.query.category;
     const price = req.query.price;
     const size = req.query.size || 10;
     const page = req.query.page || 1;
-    // console.log(req.query)
     let products = await Model.find({
       category,
       selling_price: { $gt: parseInt(price) - 1000, $lt: parseInt(price) },
     })
       .skip((page - 1) * size)
       .limit(size);
-    // console.log("product",products);
     return res.status(200).json({
       success: true,
       products,

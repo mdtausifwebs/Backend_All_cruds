@@ -4,16 +4,21 @@ const getProducts = async (req, res) => {
     let page = req.query.page || 1;
     let size = req.query.size || 8;
     let category = req.query.category;
-    // console.log(req.query);
+    console.log(req.query);
+    delete req.query["page"]
+    delete req.query["size"]
+    console.log(req.query)
     const limit = parseInt(size);
     const products = await productmodel
-      .find({ category })
+      .find(req.query)
       .skip((page - 1) * size)
       .limit(limit);
+      // let filter=Object.keys(products[0][0])
     return res.status(200).json({
       success: true,
       size: products.length,
       products,
+      // filter
     });
   } catch (err) {
     return res.status(404).json({
@@ -22,9 +27,6 @@ const getProducts = async (req, res) => {
     });
   }
 };
-
-
-
 const sortbyPrice = async (req, res) => {
   try {
     let page = req.query.page || 1;
